@@ -13,7 +13,7 @@ const NavBarStyled = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: 0 25px 0 19px;
   background-color: #299b01;
   color: white;
 `;
@@ -35,7 +35,6 @@ const ImgLogo = styled.img`
 const Login = styled.button`
   position: relative;
   width: 45px;
-  font-family: Roboto;
   font-size: 16px;
   border: none;
   outline: none;
