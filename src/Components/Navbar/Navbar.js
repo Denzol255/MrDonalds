@@ -9,7 +9,7 @@ const NavBarStyled = styled.header`
   left: 0;
   z-index: 19;
   height: 80px;
-  width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
