@@ -1,6 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BtnAdd } from '../Styled/BtnAdd';
+import { CountItem } from './CountItem';
+import { useCount } from '../Hooks/useCount';
+import { totalPriceItems } from '../Functions/secondaryFunction';
+import { formatCurrency } from '../Functions/secondaryFunction';
+import { Toppings } from './Toppings';
+import { useToppings } from '../Hooks/useTopping';
 
 const Overlay = styled.div`
   position: fixed;
@@ -39,7 +45,7 @@ const HeaderContent = styled.div`
   font-size: 30px;
   line-height: 53px;
   color: #000000;
-  margin-bottom: 222px;
+  margin-bottom: 20px;
 `;
 
 const Content = styled.div`
@@ -48,7 +54,17 @@ const Content = styled.div`
   padding: 0px 53px 0px 37px;
 `;
 
+const TotalPriceItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
+`;
+
 export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
+  const counter = useCount();
+  const toppings = useToppings(openItem);
+
   const closeModal = (e) => {
     if (e.target.id === 'overlay') {
       setOpenItem(null);
@@ -57,6 +73,8 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
 
   const order = {
     ...openItem,
+    count: counter.count,
+    topping: toppings.toppings,
   };
 
   const addToOrder = () => {
@@ -71,13 +89,14 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
         <Content>
           <HeaderContent>
             <p>{openItem.name}</p>
-            <p>
-              {openItem.price.toLocaleString('ru-RU', {
-                style: 'currency',
-                currency: 'RUB',
-              })}
-            </p>
+            <p>{formatCurrency(openItem.price)}</p>
           </HeaderContent>
+          <CountItem {...counter} />
+          {openItem.toppings && <Toppings {...toppings} />}
+          <TotalPriceItem>
+            <span>Цена: </span>
+            <span>{formatCurrency(totalPriceItems(order))}</span>
+          </TotalPriceItem>
           <BtnAdd onClick={addToOrder}>Добавить</BtnAdd>
         </Content>
       </Modal>
