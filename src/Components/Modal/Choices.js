@@ -3,19 +3,21 @@ import { ChoicesToppingWrapper } from '../Styled/ChoicesTopping';
 import { ChoicesToppingLabel } from '../Styled/ChoicesTopping';
 import { ChoicesToppingBtn } from '../Styled/ChoicesTopping';
 
-export function Toppings({ toppings, checkToppings }) {
+export function Choices({ openItem, choice, changeChoices }) {
   return (
     <>
-      <h3>Добавки</h3>
+      <h3>Выберите:</h3>
       <ChoicesToppingWrapper>
-        {toppings.map((item, index) => (
+        {openItem.choices.map((item, index) => (
           <ChoicesToppingLabel key={index}>
             <ChoicesToppingBtn
-              type="checkbox"
-              checked={item.checked}
-              onChange={() => checkToppings(index)}
+              type="radio"
+              name="choices"
+              checked={choice === item}
+              value={item}
+              onChange={changeChoices}
             />
-            {item.name}
+            {item}
           </ChoicesToppingLabel>
         ))}
       </ChoicesToppingWrapper>
