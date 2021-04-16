@@ -7,7 +7,7 @@ export const BtnAdd = styled.button`
   font-size: 21px;
   line-height: 25px;
   background-color: #299b01;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   color: #ffffff;
   margin: 0 auto;
   transition-property: color, border-color, background-color;
