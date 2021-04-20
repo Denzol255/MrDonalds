@@ -4,6 +4,7 @@ import dbMenu from '../DBMenu';
 import { ListItem } from './LIstItem';
 import { Banner } from './Banner';
 import { useFetch } from '../Hooks/useFetch';
+import { Preloader } from '../Preloader/Preloader';
 
 const MenuStyled = styled.menu`
   background-color: #ccc;
@@ -38,7 +39,7 @@ export const Menu = ({ setOpenItem }) => {
       ) : res.error ? (
         <div>Something went wrong...</div>
       ) : (
-        <div>Loading...</div>
+        <Preloader />
       )}
     </MenuStyled>
   );
