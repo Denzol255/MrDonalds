@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import dbMenu from '../DBMenu';
 import { ListItem } from './LIstItem';
 import { Banner } from './Banner';
-import { useFetch } from '../Hooks/useFetch';
+//import { useFetch } from '../Hooks/useFetch';
 import { Preloader } from '../Preloader/Preloader';
 
 const MenuStyled = styled.menu`
@@ -16,15 +15,11 @@ const SectionMenu = styled.section`
   padding: 30px;
 `;
 
-export const Menu = ({ setOpenItem }) => {
-  const res = useFetch();
-
-  const dbMenu = res.response;
-
+export const Menu = ({ setOpenItem, dbMenu }) => {
   return (
     <MenuStyled>
       <Banner />
-      {res.response ? (
+      {dbMenu ? (
         <>
           <SectionMenu>
             <h2>Бургеры</h2>
@@ -36,8 +31,6 @@ export const Menu = ({ setOpenItem }) => {
             <ListItem itemList={dbMenu.other} setOpenItem={setOpenItem} />
           </SectionMenu>
         </>
-      ) : res.error ? (
-        <div>Something went wrong...</div>
       ) : (
         <Preloader />
       )}

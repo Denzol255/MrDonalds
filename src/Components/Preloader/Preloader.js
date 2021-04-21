@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import preloadImg from '../image/hiss_white.gif';
-import bannerImg from '../image/banner.png';
 
 const PreloaderMain = styled.div`
   position: fixed;
