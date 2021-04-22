@@ -81,13 +81,13 @@ export const ModalItem = () => {
     setOpenItem(null);
   };
   const closeModal = (e) => {
-    if (e.target.classList.contains('overlay')) {
+    if (e.target.classList.contains('overlayModal')) {
       setOpenItem(null);
     }
   };
 
   return (
-    <Overlay className="overlay" onClick={closeModal}>
+    <Overlay className="overlayModal" onClick={closeModal}>
       <Modal>
         <Banner img={openItem.img} />
         <Content>

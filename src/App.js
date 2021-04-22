@@ -14,6 +14,8 @@ import { useTitle } from './Components/Hooks/useTitle';
 import { OrderConfirm } from './Components/Order/OrderConfirm';
 import { useOrderConfirm } from './Components/Hooks/useOrderConfirm';
 import { Context } from './Components/Functions/context';
+import { useThxMessage } from './Components/Hooks/useThxMessage';
+import { ThxMessage } from './Components/Order/ThxMessage';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyANmee-0gkT5_nXBD9nCAtVRflgkn_l-wg',
@@ -37,6 +39,7 @@ function App() {
   const openItem = useOpenItem();
   const orders = useOrders();
   const orderConfirm = useOrderConfirm();
+  const thxMessage = useThxMessage();
   useTitle(openItem.openItem);
 
   return (
@@ -46,6 +49,7 @@ function App() {
         openItem,
         orders,
         orderConfirm,
+        thxMessage,
       }}
     >
       <GlobalStyle />
@@ -57,6 +61,7 @@ function App() {
       {orderConfirm.openOrderConfirm && (
         <OrderConfirm firebaseDatabase={firebase.database} />
       )}
+      {thxMessage.openThxMessage && <ThxMessage />}
     </Context.Provider>
   );
 }

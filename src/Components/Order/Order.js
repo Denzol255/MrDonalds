@@ -30,6 +30,16 @@ const Empty = styled.p`
   text-align: center;
 `;
 
+const EmptyHead = styled.h3`
+  font-size: 32px;
+  margin-bottom: 200px;
+`;
+
+const EmptyText = styled.p`
+  color: #299b01;
+  font-size: 24px;
+`;
+
 export const Order = () => {
   const {
     orders: { orders, setOrders },
@@ -57,46 +67,43 @@ export const Order = () => {
   return (
     <OrderStyled>
       <OrderTitle>ваш заказ</OrderTitle>
-      <OrderContent>
-        {orders.length ? (
-          <OrderList>
-            {orders.map((order, index) => (
-              <OrderListItem
-                key={index}
-                deleteItem={deleteItem}
-                order={order}
-                index={index}
-                setOpenItem={setOpenItem}
-              />
-            ))}
-          </OrderList>
-        ) : (
-          <Empty>Список заказов пуст</Empty>
-        )}
-      </OrderContent>
       {orders.length ? (
-        <Total>
-          <span>Итого</span>
-          <span>{totalCounter}</span>
-          <TotalPrice>{formatCurrency(total)}</TotalPrice>
-        </Total>
+        <>
+          <OrderContent>
+            <OrderList>
+              {orders.map((order, index) => (
+                <OrderListItem
+                  key={index}
+                  deleteItem={deleteItem}
+                  order={order}
+                  index={index}
+                  setOpenItem={setOpenItem}
+                />
+              ))}
+            </OrderList>
+          </OrderContent>
+          <Total>
+            <span>Итого:</span>
+            <span>{totalCounter}</span>
+            <TotalPrice>{formatCurrency(total)}</TotalPrice>
+          </Total>
+          <BtnAdd
+            onClick={() => {
+              if (authentication) {
+                setOpenOrderConfirm(true);
+              } else {
+                logIn();
+              }
+            }}
+          >
+            Оформить
+          </BtnAdd>
+        </>
       ) : (
-        <Empty>Добавьте что-нибудь для оформления заказа</Empty>
-      )}
-      {orders.length ? (
-        <BtnAdd
-          onClick={() => {
-            if (authentication) {
-              setOpenOrderConfirm(true);
-            } else {
-              logIn();
-            }
-          }}
-        >
-          Оформить
-        </BtnAdd>
-      ) : (
-        false
+        <Empty>
+          <EmptyHead>Список заказов пуст</EmptyHead>
+          <EmptyText>Добавьте что-нибудь в заказ для оформления</EmptyText>
+        </Empty>
       )}
     </OrderStyled>
   );

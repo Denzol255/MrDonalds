@@ -22,6 +22,8 @@ const Item = styled.li`
   color: #ffffff;
   z-index: 1;
   transition: all 0.3s ease-out;
+  border-radius: 15px;
+  overflow: hidden;
   &:after {
     content: '';
     position: absolute;

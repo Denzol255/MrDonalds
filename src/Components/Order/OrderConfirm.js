@@ -7,6 +7,7 @@ import { projection } from '../Functions/secondaryFunction';
 import { totalPriceItems } from '../Functions/secondaryFunction';
 import { formatCurrency } from '../Functions/secondaryFunction';
 import { Context } from '../Functions/context';
+import { ThxMessage } from '../Order/ThxMessage';
 
 const Modal = styled.div`
   background-color: #fff;
@@ -17,6 +18,22 @@ const Modal = styled.div`
 const Text = styled.h3`
   text-align: center;
   margin-bottom: 30px;
+`;
+
+const ConfirmBtns = styled.div`
+  display: flex;
+`;
+
+const BtnOut = styled.button`
+  display: block;
+  width: 250px;
+  height: 65px;
+  font-size: 21px;
+  line-height: 25px;
+  border: 2px solid transparent;
+  color: #fff;
+  background-color: tomato;
+  margin-right: 14px;
 `;
 
 const rulesData = {
@@ -45,6 +62,7 @@ export const OrderConfirm = ({ firebaseDatabase }) => {
     orders: { orders, setOrders },
     auth: { authentication },
     orderConfirm: { setOpenOrderConfirm },
+    thxMessage: { setOpenThxMessage },
   } = useContext(Context);
   const dataBase = firebaseDatabase();
   const total = orders.reduce(
@@ -53,29 +71,39 @@ export const OrderConfirm = ({ firebaseDatabase }) => {
   );
 
   const closeModalConfirm = (e) => {
-    if (e.target.classList.contains('overlay')) {
+    if (
+      e.target.classList.contains('overlayModalConfirm') ||
+      e.target.classList.contains('backModalConfirm')
+    ) {
       setOpenOrderConfirm(false);
     }
   };
 
   return (
-    <Overlay className="overlay" onClick={closeModalConfirm}>
+    <Overlay className="overlayModalConfirm" onClick={closeModalConfirm}>
       <Modal>
         <OrderTitle>{authentication.displayName.split(' ')[0]}</OrderTitle>
         <Text>Осталось только подтвердить заказ</Text>
         <Total>
-          <span>Итого</span>
+          <span>Итого:</span>
           <TotalPrice>{formatCurrency(total)}</TotalPrice>
         </Total>
-        <BtnAdd
-          onClick={() => {
-            sendOrder(dataBase, orders, authentication);
-            setOrders([]);
-            setOpenOrderConfirm(false);
-          }}
-        >
-          Подтвердить
-        </BtnAdd>
+        <ConfirmBtns>
+          <BtnAdd
+            onClick={() => {
+              sendOrder(dataBase, orders, authentication);
+              setOrders([]);
+              setOpenOrderConfirm(false);
+              setOpenThxMessage(true);
+              setTimeout(() => setOpenThxMessage(false), 3000);
+            }}
+          >
+            Подтвердить
+          </BtnAdd>
+          <BtnOut className="backModalConfirm" onClick={closeModalConfirm}>
+            Вернуться к заказу
+          </BtnOut>
+        </ConfirmBtns>
       </Modal>
     </Overlay>
   );
