@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { BtnAdd } from '../Styled/BtnAdd';
 import { CountItem } from './CountItem';
@@ -9,24 +9,13 @@ import { Toppings } from './Toppings';
 import { Choices } from './Choices';
 import { useToppings } from '../Hooks/useTopping';
 import { useChoices } from '../Hooks/useChoices';
-
-const Overlay = styled.div`
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 20;
-`;
+import { Context } from '../Functions/context';
+import { Overlay } from '../Styled/Overlay';
 
 const Modal = styled.div`
   background-color: #fff;
   width: 600px;
-  height: 600px;
+  height: 650px;
 `;
 
 const Banner = styled.div`
@@ -63,17 +52,15 @@ const TotalPriceItem = styled.div`
   margin-bottom: 20px;
 `;
 
-export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
+export const ModalItem = () => {
+  const {
+    openItem: { openItem, setOpenItem },
+    orders: { orders, setOrders },
+  } = useContext(Context);
   const counter = useCount(openItem.count);
   const toppings = useToppings(openItem);
   const choices = useChoices(openItem);
   const isEdit = openItem.index > -1;
-
-  const closeModal = (e) => {
-    if (e.target.id === 'overlay') {
-      setOpenItem(null);
-    }
-  };
 
   const order = {
     ...openItem,
@@ -93,9 +80,14 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
     setOrders([...orders, order]);
     setOpenItem(null);
   };
+  const closeModal = (e) => {
+    if (e.target.classList.contains('overlay')) {
+      setOpenItem(null);
+    }
+  };
 
   return (
-    <Overlay id="overlay" onClick={closeModal}>
+    <Overlay className="overlay" onClick={closeModal}>
       <Modal>
         <Banner img={openItem.img} />
         <Content>
